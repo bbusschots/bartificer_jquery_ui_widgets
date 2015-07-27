@@ -32,107 +32,116 @@
 
 /*jshint jquery: true*/
 
-//
-// === Image Checkbox Widget ===================================================
-//
+// use a self-executing function to create a closure
+(function(){
 
-$.widget("bartificer.checkboxImage", {
-    // default values
-    options: {
-        width: '16px',
-        height: '16px',
-        img_checked: '',
-        img_unchecked: '',
-        mode: 'dim' // 'dim' or 'swap'
-    },
-      
-    // initialise the element
-    _create: function(){
-        // ensure we are being called on a compatible form element
-        if(!this.element.is('input[type="checkbox"], input[type="radio"]')){
-            throw "checkboxImage can only be applied to input tags of type checkbox or radio";
-        }
-        
-        // ensure the element has an ID
-        if(!this.element.attr('id')){
-            this.element.attr('id', 'bartificer-checkbox-image-' + Math.floor((Math.random() * 1000000) + 1));
-        }
-        
-        // add a CSS class
-        this.element.addClass('bartificer-checkbox-image');
-        
-        // add a label directly after this element
-        this.labelElement = $('<label />').attr('for', this.element.attr('id'));
-        this.labelElement.addClass('bartificer-checkbox-image');
-        this.labelElement.css({
-            display: 'inline-block',
-            cursor: 'pointer',
-            'vertical-align' : 'middle'
-        });
-        this.element.after(this.labelElement);
-        
-        // set the CSS properties of the checkbox
-        this.element.css({
-            display: 'none'
-        });
-        
-        // attach needed event handlers
-        this._on({
-            change: function(){
-                this.refresh();
+    // a counter to facilitate auto-generated IDs when needed
+    var widget_sequence = 1000;
+    
+    
+    //
+    // === Image Checkbox Widget ===================================================
+    //
+    $.widget("bartificer.checkboxImage", {
+        // default values
+        options: {
+            width: '16px',
+            height: '16px',
+            img_checked: '',
+            img_unchecked: '',
+            mode: 'dim' // 'dim' or 'swap'
+        },
+
+        // initialise the element
+        _create: function(){
+            widget_sequence++;
+
+            // ensure we are being called on a compatible form element
+            if(!this.element.is('input[type="checkbox"], input[type="radio"]')){
+                throw "checkboxImage can only be applied to input tags of type checkbox or radio";
             }
-        });
-        
-        // render the widget so it reflects the state of the checkbox/radio button
-        this.refresh();
-    },
-      
-    // option change handler
-    _setOption: function(key, value){
-        // normalise mode, defaulting unexpected values to dim
-        if(key === "mode"){
-            value = value.toLowerCase();
-            if(value != 'swap'){
-                value = 'dim';
+
+            // ensure the element has an ID
+            if(!this.element.attr('id')){
+                this.element.attr('id', 'bartificer-checkbox-image-' + widget_sequence);
             }
-        }
-        // pass on to the parent class for processing
-        this._super(key, value);
-    },
-    _setOptions: function(options){
-        this._super(options);
-        this.refresh();
-    },
-      
-    // function to render the widget
-    refresh: function(){
-        // deal with the width and height
-        this.labelElement.css({
-            width: this.options.width,
-            height: this.options.height,
-        });
-        
-        // set the background image and opacity as appropriate
-        if(this.options.mode == 'swap'){
-            // in swap mode the opacity is always 1
-            this.labelElement.css('opacity', 1);
-            
-            // set the background image depending on the checkbox state
-            if(this.element.prop('checked')){
-                this.labelElement.css('background-image', 'url(' + this.options.img_checked + ')');
-            }else{
-                this.labelElement.css('background-image', 'url(' + this.options.img_unchecked + ')');
+
+            // add a CSS class
+            this.element.addClass('bartificer-checkbox-image');
+
+            // add a label directly after this element
+            this.labelElement = $('<label />').attr('for', this.element.attr('id'));
+            this.labelElement.addClass('bartificer-checkbox-image');
+            this.labelElement.css({
+                display: 'inline-block',
+                cursor: 'pointer',
+                'vertical-align' : 'middle'
+            });
+            this.element.after(this.labelElement);
+
+            // set the CSS properties of the checkbox
+            this.element.css({
+                display: 'none'
+            });
+
+            // attach needed event handlers
+            this._on({
+                change: function(){
+                    this.refresh();
+                }
+            });
+
+            // render the widget so it reflects the state of the checkbox/radio button
+            this.refresh();
+        },
+
+        // option change handler
+        _setOption: function(key, value){
+            // normalise mode, defaulting unexpected values to dim
+            if(key === "mode"){
+                value = value.toLowerCase();
+                if(value != 'swap'){
+                    value = 'dim';
+                }
             }
-        }else{
-            // in dim mode the background image is always the same
-            this.labelElement.css('background-image', 'url(' + this.options.img_checked + ')');
-            
-            // set the opacity depending on the checkbox state
-            if(this.element.prop('checked')){
+            // pass on to the parent class for processing
+            this._super(key, value);
+        },
+        _setOptions: function(options){
+            this._super(options);
+            this.refresh();
+        },
+
+        // function to render the widget
+        refresh: function(){
+            // deal with the width and height
+            this.labelElement.css({
+                width: this.options.width,
+                height: this.options.height,
+            });
+
+            // set the background image and opacity as appropriate
+            if(this.options.mode == 'swap'){
+                // in swap mode the opacity is always 1
                 this.labelElement.css('opacity', 1);
+
+                // set the background image depending on the checkbox state
+                if(this.element.prop('checked')){
+                    this.labelElement.css('background-image', 'url(' + this.options.img_checked + ')');
+                }else{
+                    this.labelElement.css('background-image', 'url(' + this.options.img_unchecked + ')');
+                }
             }else{
-                this.labelElement.css('opacity', "0.25");
+                // in dim mode the background image is always the same
+                this.labelElement.css('background-image', 'url(' + this.options.img_checked + ')');
+
+                // set the opacity depending on the checkbox state
+                if(this.element.prop('checked')){
+                    this.labelElement.css('opacity', 1);
+                }else{
+                    this.labelElement.css('opacity', "0.25");
+                }
             }
-        }
-    }  
-});
+        }  
+    });
+})() // end the self-executing function (and hence the closure)

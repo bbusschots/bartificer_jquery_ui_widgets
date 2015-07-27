@@ -16,7 +16,7 @@ The widget can operate in one of two modes:
 
 By default the widget assumes the images are 16px squares, but custom widths and heights can be set using the `width` and `height` options.
 
-This widget works best if the checkbox has an ID. If no ID is present the widget will randomly generate one.
+The widget works by generating a `label` tag with a set width and height, setting it's background image, and tying it to the checkbox/radio button. For this to work the checkbox/radio button must have an ID. If one is present it will not be altered in any way, but if none is present an unique one will be auto-generated and assigned to the checkbox/radio button. Changing the ID of the checkbox/radio button after the widget has been initialised will break the widget.
 
 Sample Code:
 
