@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Bartififer JQuery UI Widgets - Examples</title>
+  
+  <!-- include JQuery & JQuery UI -->
+  <script type="text/javascript" src="contrib/jquery.min.js"></script>
+  <script type="text/javascript" src="contrib/jquery-ui.custom/jquery-ui.js"></script>
+  
+  <!-- include the Bartificer Widgets -->
+  <script type="text/javascript" src="Bartificer-JQueryUI-Widgets.js"></script>
+  
+  <!-- Initialise the page -->
+  <script type="text/javascript">
+    //<![CDATA[
+  
+    $(document).ready(function(){
+      $('#checkbox_dim').checkboxImage({
+        mode: 'dim',
+        img_checked: 'contrib/famfamfam_silk_icons_v013/icons/star.png'
+      });
+      $('#checkbox_swap').checkboxImage({
+        mode: 'swap',
+        img_checked: 'contrib/famfamfam_silk_icons_v013/icons/tick.png',
+        img_unchecked: 'contrib/famfamfam_silk_icons_v013/icons/cross.png'
+      });
+    });
+  
+    //]]>
+  </script>
+</head>
+<body>
+<h1>Bartificer JQuery UI Widgets - Examples</h1>
+
+<h2>Image Checkboxes</h2>
+<ul>
+  <li>
+    In the default <code>dim</code> mode: <input type="checkbox" id="checkbox_dim" />
+  </li>
+  <li>
+    In <code>swap</code> mode: <input type="checkbox" id="checkbox_swap" />
+  </li>
+</ul>
+</body>
+</html>
