@@ -1,3 +1,4 @@
+/*jshint jquery: true*/
 // Bartifcer JQuery UI Widget Library
 //
 // This code requires JQuery Core & JQuery UI
@@ -30,8 +31,6 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-/*jshint jquery: true*/
-
 // use a self-executing function to create a closure
 (function(){
 
@@ -40,7 +39,7 @@
     
     
     //
-    // === Image Checkbox Widget ===================================================
+    // === Image Checkbox Widget ===============================================
     //
     $.widget("bartificer.checkboxImage", {
         // default values
@@ -144,4 +143,154 @@
             }
         }  
     });
-})() // end the self-executing function (and hence the closure)
+    
+    //
+    // === Star Rating Widget ==================================================
+    //
+    $.widget("bartificer.starRating", {
+        // default values
+        options: {
+            numStars: 5,
+            starWidth: '16px',
+            starHeight: '16px',
+            starImg: '',
+            blankImg: '',
+            mode: 'swap' // 'swap' or 'dim'
+        },
+
+        // initialise the element
+        _create: function(){
+            widget_sequence++;
+
+            // ensure we are being called on a compatible form element
+            if(!this.element.is('input[type="hidden"], input[type="text"]')){
+                throw "StarRating can only be applied to input tags of type hidden or text";
+            }
+
+            // add a CSS class
+            this.element.addClass('bartificer-star-rating');
+
+            // add a span directly after this element for holding the stars
+            this.spanElement = $('<span />').addClass('bartificer-star-rating');
+            this.spanElement.css({
+                display: 'inline-block',
+                'vertical-align' : 'middle'
+            });
+            this.element.after(this.spanElement);
+            this.starElements = [];
+
+            // set the CSS properties of the input
+            if(this.element.is('input[type="text"]')){
+                this.element.css('display', 'none');
+            }
+            
+
+            // attach needed event handlers
+            this._on({
+                change: function(){
+                    this.refresh();
+                }
+            });
+
+            // render the widget so it reflects the state of the checkbox/radio button
+            this.refresh();
+        },
+
+        // option change handler
+        _setOption: function(key, value){
+            // normalise mode, defaulting unexpected values to dim
+            if(key === "mode"){
+                value = value.toLowerCase();
+                if(value != 'dim'){
+                    value = 'swap';
+                }
+            }
+            // pass on to the parent class for processing
+            this._super(key, value);
+        },
+        _setOptions: function(options){
+            this._super(options);
+            this.refresh();
+        },
+
+        // function to render the widget
+        refresh: function(){
+            // make sure the value is valid
+            this._coerceValue();
+            
+            // encapsulate 'this' for use in callbacks
+            var widgetObj = this;
+            
+            // remove any extraneous star elements
+            while(this.starElements.length > this.options.numStars){
+                this.starElements.pop().remove();
+            }
+            
+            // add any extra star elements needed
+            while(this.starElements.length < this.options.numStars){
+                // create the lowest missing star
+                var starNum = this.starElements.length + 1;
+                var newStar = $('<img />').data('star-num', starNum).addClass('bartificer-star-rating');
+                newStar.attr('title', starNum + ' star' + (starNum == 1 ? '' : 's'));
+                newStar.css('cursor', 'pointer');
+                newStar.click(function(){
+                    widgetObj.element.val($(this).data('star-num')).change();
+                });
+                
+                // add it to the DOM
+                this.spanElement.append(newStar);
+                
+                // add it to the array of stars
+                this.starElements.push(newStar);
+            }
+            
+            // deal with the width and height of each star element
+            $('img', this.spanElement).css({
+                width: this.options.starWidth,
+                height: this.options.starHeight
+            });
+            
+            // set the rendering of each star as appropriate
+            this.starElements.forEach(function(s){
+                if(s.data('star-num') <= widgetObj.element.val()){
+                    // render as an active star
+                    s.attr('alt', '*');
+                    s.attr('src', widgetObj.options.starImg);
+                    s.css('opacity', 1);
+                }else{
+                    // render as an inactive star
+                    s.attr('alt', '-');
+                    if(widgetObj.options.mode == 'dim'){
+                        s.attr('src', widgetObj.options.starImg);
+                        s.css('opacity', '0.25');
+                    }else{
+                        s.attr('src', widgetObj.options.blankImg);
+                        s.css('opacity', 1);
+                    }
+                }
+            });
+        },
+        
+        // a private helper function to coerce a value held in the input into the valid range
+        _coerceValue: function(){
+            // parse the value to an int
+            var intVal = parseInt(this.element.val());
+            
+            // if the value is less than 0, set it to zero and return
+            if(intVal < 0){
+                this.element.val(0);
+                return;
+            }
+            
+            //if the value is greater than the numer of stars, set it to the number of stars
+            if(intVal > this.options.numStars){
+                this.element.val(this.options.numStars);
+                return;
+            }
+            
+            // otherwise, write the intified value back
+            this.element.val(intVal);
+        }
+    });
+    
+})(); // end the self-executing function (and hence the closure)

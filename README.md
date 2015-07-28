@@ -35,3 +35,30 @@ Sample Code:
         img_checked: 'yes_icon.png',
         img_unchecked: 'no_icon.png'
     });
+    
+### starRating
+
+This widget turns an input of type `hidden` or `text` into a series of n clickable stars, allowing users to select a value between 1 and the number of stars.
+
+The widget can operate in two modes:
+* `swap` mode (the default) - different images are used for the stars that are selected, and not selected.
+* `dim` mode - the same image is used for stars that are selected and not selected, but the un-selected stars are shown with an opacity of 0.25.
+
+The widget works by adding a span containing the appropriate number of images to the DOM directly after the input the widget is applied to. If the input is of type `text`, the input's display is set to `none`.
+
+Sample Code:
+    <!-- The HTML for the star ratings -->
+    <input type="hidden" value="3" id="rating1" />
+    <input type="hidden" value="3" id="rating2" />
+    
+    // the JavaScript to configure the inputs
+    // (you would usually do this in JQuery's document ready event handler)
+    $('#rating1').checkboxImage({
+        mode: 'swap',
+        starImg: 'star_icon.png',
+        blankImg: 'dot_icon.png',
+    });
+    $('#rating2').checkboxImage({
+        mode: 'dim',
+        starImg: 'star_icon.png'
+    });

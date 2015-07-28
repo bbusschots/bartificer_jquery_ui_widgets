@@ -16,6 +16,7 @@
     //<![CDATA[
   
     $(document).ready(function(){
+      // set up the sample checkbox images
       $('#checkbox_dim').checkboxImage({
         mode: 'dim',
         img_checked: 'contrib/famfamfam_silk_icons_v013/icons/star.png'
@@ -25,22 +26,43 @@
         img_checked: 'contrib/famfamfam_silk_icons_v013/icons/tick.png',
         img_unchecked: 'contrib/famfamfam_silk_icons_v013/icons/cross.png'
       });
+      
+      // set up the sample star ratings
+      $('#stars_swap').starRating({
+        mode: 'swap',
+        starImg: 'contrib/famfamfam_silk_icons_v013/icons/star.png',
+        blankImg: 'contrib/famfamfam_silk_icons_v013/icons/bullet_black.png',
+      });
+      $('#stars_dim').starRating({
+        mode: 'dim',
+        starImg: 'contrib/famfamfam_silk_icons_v013/icons/star.png'
+      });
     });
   
     //]]>
   </script>
 </head>
 <body>
-<h1>Bartificer JQuery UI Widgets - Examples</h1>
+  <h1>Bartificer JQuery UI Widgets - Examples</h1>
 
-<h2>Image Checkboxes</h2>
-<ul>
-  <li>
-    In the default <code>dim</code> mode: <input type="checkbox" id="checkbox_dim" />
-  </li>
-  <li>
-    In <code>swap</code> mode: <input type="checkbox" id="checkbox_swap" />
-  </li>
-</ul>
+  <h2>Image Checkboxes</h2>
+  <ul>
+    <li>
+      In the default <code>dim</code> mode: <input type="checkbox" id="checkbox_dim" />
+    </li>
+    <li>
+      In <code>swap</code> mode: <input type="checkbox" id="checkbox_swap" />
+    </li>
+  </ul>
+  
+  <h2>Star Ratings</h2>
+  <ul>
+    <li>
+      In the default <code>swap</code> mode: <input type="text" id="stars_swap" value="3" />
+    </li>
+    <li>
+      In <code>dim</code> mode: <input type="text" id="stars_dim" value="3" />
+    </li>
+  </ul>
 </body>
 </html>
