@@ -17,14 +17,14 @@
   
     $(document).ready(function(){
       // set up the sample checkbox images
-      $('#checkbox_dim').checkboxImage({
+      $('#checkbox_dim').checkboxIcon({
         mode: 'dim',
-        img_checked: 'contrib/famfamfam_silk_icons_v013/icons/star.png'
+        checkedImg: 'contrib/famfamfam_silk_icons_v013/icons/star.png'
       });
-      $('#checkbox_swap').checkboxImage({
+      $('#checkbox_swap').checkboxIcon({
         mode: 'swap',
-        img_checked: 'contrib/famfamfam_silk_icons_v013/icons/tick.png',
-        img_unchecked: 'contrib/famfamfam_silk_icons_v013/icons/cross.png'
+        checkedImg: 'contrib/famfamfam_silk_icons_v013/icons/tick.png',
+        uncheckedImg: 'contrib/famfamfam_silk_icons_v013/icons/cross.png'
       });
       
       // set up the sample star ratings
@@ -45,7 +45,7 @@
 <body>
   <h1>Bartificer JQuery UI Widgets - Examples</h1>
 
-  <h2>Image Checkboxes</h2>
+  <h2>Checkboxe Icons</h2>
   <ul>
     <li>
       In the default <code>dim</code> mode: <input type="checkbox" id="checkbox_dim" />

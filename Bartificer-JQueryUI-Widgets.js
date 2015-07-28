@@ -35,25 +35,25 @@
 (function(){
 
     // a counter to facilitate auto-generated IDs when needed
-    var widget_sequence = 1000;
+    var WIDGET_SEQUENCE = 1000;
     
     
     //
-    // === Image Checkbox Widget ===============================================
+    // === Checkbox Icon Widget ===============================================
     //
-    $.widget("bartificer.checkboxImage", {
+    $.widget("bartificer.checkboxIcon", {
         // default values
         options: {
             width: '16px',
             height: '16px',
-            img_checked: '',
-            img_unchecked: '',
+            checkedImg: '',
+            uncheckedImg: '',
             mode: 'dim' // 'dim' or 'swap'
         },
 
         // initialise the element
         _create: function(){
-            widget_sequence++;
+            WIDGET_SEQUENCE++;
 
             // ensure we are being called on a compatible form element
             if(!this.element.is('input[type="checkbox"], input[type="radio"]')){
@@ -62,15 +62,15 @@
 
             // ensure the element has an ID
             if(!this.element.attr('id')){
-                this.element.attr('id', 'bartificer-checkbox-image-' + widget_sequence);
+                this.element.attr('id', 'bartificer-checkbox-icon-' + WIDGET_SEQUENCE);
             }
 
             // add a CSS class
-            this.element.addClass('bartificer-checkbox-image');
+            this.element.addClass('bartificer-checkbox-icon');
 
             // add a label directly after this element
             this.labelElement = $('<label />').attr('for', this.element.attr('id'));
-            this.labelElement.addClass('bartificer-checkbox-image');
+            this.labelElement.addClass('bartificer-checkbox-icon');
             this.labelElement.css({
                 display: 'inline-block',
                 cursor: 'pointer',
@@ -126,13 +126,13 @@
 
                 // set the background image depending on the checkbox state
                 if(this.element.prop('checked')){
-                    this.labelElement.css('background-image', 'url(' + this.options.img_checked + ')');
+                    this.labelElement.css('background-image', 'url(' + this.options.checkedImg + ')');
                 }else{
-                    this.labelElement.css('background-image', 'url(' + this.options.img_unchecked + ')');
+                    this.labelElement.css('background-image', 'url(' + this.options.uncheckedImg + ')');
                 }
             }else{
                 // in dim mode the background image is always the same
-                this.labelElement.css('background-image', 'url(' + this.options.img_checked + ')');
+                this.labelElement.css('background-image', 'url(' + this.options.checkedImg + ')');
 
                 // set the opacity depending on the checkbox state
                 if(this.element.prop('checked')){
@@ -160,7 +160,7 @@
 
         // initialise the element
         _create: function(){
-            widget_sequence++;
+            WIDGET_SEQUENCE++;
 
             // ensure we are being called on a compatible form element
             if(!this.element.is('input[type="hidden"], input[type="text"]')){

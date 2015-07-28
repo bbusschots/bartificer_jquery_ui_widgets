@@ -6,7 +6,7 @@ This is very much a work in progress, and absolutely not ready for prime-time - 
 
 ## Included Widgets
 
-### checkboxImage
+### checkboxIcon
 
 This widget turns an `input` of type `checkbox` or `radio` into a clickable icon which changes to indicate the state of the `input`.
 
@@ -26,14 +26,14 @@ Sample Code:
     
     // the JavaScript to configure the checkboxes
     // (you would usually do this in JQuery's document ready event handler)
-    $('#fav_cb').checkboxImage({
+    $('#fav_cb').checkboxIcon({
         mode: 'dim',
-        img_checked: 'fav_icon.png'
+        checkedImg: 'fav_icon.png'
     });
-    $('#vat_cb').checkboxImage({
+    $('#vat_cb').checkboxIcon({
         mode: 'swap',
-        img_checked: 'yes_icon.png',
-        img_unchecked: 'no_icon.png'
+        checkedImg: 'yes_icon.png',
+        uncheckedImg: 'no_icon.png'
     });
     
 ### starRating
@@ -47,6 +47,7 @@ The widget can operate in two modes:
 The widget works by adding a span containing the appropriate number of images to the DOM directly after the input the widget is applied to. If the input is of type `text`, the input's display is set to `none`.
 
 Sample Code:
+
     <!-- The HTML for the star ratings -->
     <input type="hidden" value="3" id="rating1" />
     <input type="hidden" value="3" id="rating2" />
@@ -56,7 +57,7 @@ Sample Code:
     $('#rating1').checkboxImage({
         mode: 'swap',
         starImg: 'star_icon.png',
-        blankImg: 'dot_icon.png',
+        blankImg: 'dot_icon.png'
     });
     $('#rating2').checkboxImage({
         mode: 'dim',
