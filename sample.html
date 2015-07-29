@@ -27,6 +27,13 @@
         uncheckedImg: 'contrib/famfamfam_silk_icons_v013/icons/cross.png'
       });
       
+      // set up the yes/no icon toggle
+      $('#yesnotoggle').yesNoIconToggle({
+        iconImg: 'contrib/famfamfam_silk_icons_v013/icons/creditcards.png',
+        yesImg: 'contrib/famfamfam_silk_icons_v013/icons/accept.png',
+        noImg: 'contrib/famfamfam_silk_icons_v013/icons/cancel.png'
+      });
+      
       // set up the sample star ratings
       $('#stars_swap').starRating({
         mode: 'swap',
@@ -45,13 +52,20 @@
 <body>
   <h1>Bartificer JQuery UI Widgets - Examples</h1>
 
-  <h2>Checkboxe Icons</h2>
+  <h2>Checkbox Icons</h2>
   <ul>
     <li>
       In the default <code>dim</code> mode: <input type="checkbox" id="checkbox_dim" />
     </li>
     <li>
       In <code>swap</code> mode: <input type="checkbox" id="checkbox_swap" />
+    </li>
+  </ul>
+  
+  <h2>Yes/No Icon Toggle</h2>
+  <ul>
+    <li>
+      <input type="hidden" id="yesnotoggle" />
     </li>
   </ul>
   

@@ -145,6 +145,253 @@
     });
     
     //
+    // === Yes No Icon Toggle ==================================================
+    //
+    $.widget("bartificer.yesNoIconToggle", {
+        // default values
+        options: {
+            iconWidthPx: 16,
+            iconImg: '',
+            yesImg: '',
+            noImg: '',
+            allowNone: true,
+            allowBoth: false,
+            yesValue: 'yes',
+            noValue: 'no',
+            bothValue: 'both',
+            noneValue: ''
+        },
+        
+        // option change handler
+        _setOption: function(key, value){
+            // normalise the icon width
+            if(key === "iconWidthPx"){
+                value = parseInt(value);
+            }
+            
+            // normalise the two boolean values
+            if(key === "allowNone" || key === "allowBoth"){
+                value = value ? 1 : 0 ;
+            }
+            
+            // pass on to the parent class for processing
+            this._super(key, value);
+        },
+        _setOptions: function(options){
+            this._super(options);
+            this.refresh();
+        },
+
+        // initialise the element
+        _create: function(){
+            WIDGET_SEQUENCE++;
+
+            // ensure we are being called on a compatible form element
+            if(!this.element.is('input[type="hidden"], input[type="text"]')){
+                throw "yesNoToggle can only be applied to input tags of type hidden or text";
+            }
+            
+            // encapsulate 'this' for use in callbacks
+            var widgetObj = this;
+
+            // add a CSS class
+            this.element.addClass('bartificer-yes-no-icon-toggle');
+
+            // add a span directly after this element for holding the icons
+            this.spanElement = $('<span />').addClass('bartificer-yes-no-icon-toggle');
+            this.spanElement.css({
+                display: 'inline-block',
+                'vertical-align': 'middle',
+                width: (this.options.iconWidthPx + parseInt(this.options.iconWidthPx / 2) + 2) + 'px',
+                height: this.options.iconWidthPx + 'px',
+                position: 'relative'
+            });
+            this.element.after(this.spanElement);
+            
+            // insert the main icon
+            this.mainIconElement = $('<img />').addClass('bartificer-yes-no-icon-toggle-icon');
+            this.mainIconElement.attr('src', this.options.iconImg);
+            this.mainIconElement.css({
+                position: 'absolute',
+                top: '0px',
+                left: '0px',
+                width: this.options.iconWidthPx + 'px',
+                height: this.options.iconWidthPx + 'px'
+            });
+            this.mainIconElement.click(function(){
+                if(widgetObj.options.allowNone && widgetObj.element.val() == widgetObj.options.noneValue){
+                    widgetObj.element.val(widgetObj.options.noValue).change();
+                }else if(widgetObj.options.allowBoth && widgetObj.element.val() == widgetObj.options.bothValue){
+                    if(widgetObj.options.allowNone){
+                        widgetObj.element.val(widgetObj.options.noneValue).change();
+                    }else{
+                        widgetObj.element.val(widgetObj.options.noValue).change();
+                    }
+                }else if(widgetObj.element.val() == widgetObj.options.noValue){
+                    widgetObj.element.val(widgetObj.options.yesValue).change();
+                }else{
+                    // we are a yes, go to both, none, or no
+                    if(widgetObj.options.allowBoth){
+                        widgetObj.element.val(widgetObj.options.bothValue).change();
+                    }else if(widgetObj.options.allowNone){
+                        widgetObj.element.val(widgetObj.options.noneValue).change();
+                    }else{
+                        widgetObj.element.val(widgetObj.options.noValue).change();
+                    }
+                }
+            });
+            this.spanElement.append(this.mainIconElement);
+            
+            // insert the yes icon
+            this.yesIconElement = $('<img />').addClass('bartificer-yes-no-icon-toggle-yes');
+            this.yesIconElement.attr('src', this.options.yesImg);
+            this.yesIconElement.css({
+                position: 'absolute',
+                top: '0px',
+                right: '0px',
+                width: this.options.iconWidth + parseInt(this.options.iconWidth / 2) + 'px',
+                height: this.options.iconWidth + parseInt(this.options.iconWidth / 2) + 'px'
+            });
+            this.yesIconElement.click(function(){
+                if(widgetObj.options.allowNone && widgetObj.element.val() == widgetObj.options.noneValue){
+                    widgetObj.element.val(widgetObj.options.yesValue).change();
+                }else if(widgetObj.options.allowBoth && widgetObj.element.val() == widgetObj.options.bothValue){
+                    widgetObj.element.val(widgetObj.options.noValue).change();
+                }else if(widgetObj.element.val() == widgetObj.options.noValue){
+                    if(widgetObj.options.allowBoth){
+                        widgetObj.element.val(widgetObj.options.bothValue).change();
+                    }else{
+                        widgetObj.element.val(widgetObj.options.yesValue).change();
+                    }
+                }else{
+                    // we are a yes, go to none, or no
+                    if(widgetObj.options.allowNone){
+                        widgetObj.element.val(widgetObj.options.noneValue).change();
+                    }else{
+                        widgetObj.element.val(widgetObj.options.noValue).change();
+                    }
+                }
+            });
+            this.spanElement.append(this.yesIconElement);
+            
+            // insert the no icon
+            this.noIconElement = $('<img />').addClass('bartificer-yes-no-icon-toggle-no');
+            this.noIconElement.attr('src', this.options.noImg);
+            this.noIconElement.css({
+                position: 'absolute',
+                bottom: '0px',
+                right: '0px',
+                width: this.options.iconWidth + parseInt(this.options.iconWidth / 2) + 'px',
+                height: this.options.iconWidth + parseInt(this.options.iconWidth / 2) + 'px'
+            });
+            this.noIconElement.click(function(){
+                if(widgetObj.options.allowNone && widgetObj.element.val() == widgetObj.options.noneValue){
+                    widgetObj.element.val(widgetObj.options.noValue).change();
+                }else if(widgetObj.options.allowBoth && widgetObj.element.val() == widgetObj.options.bothValue){
+                    widgetObj.element.val(widgetObj.options.yesValue).change();
+                }else if(widgetObj.element.val() == widgetObj.options.noValue){
+                    if(widgetObj.options.allowNone){
+                        widgetObj.element.val(widgetObj.options.noneValue).change();
+                    }else{
+                        widgetObj.element.val(widgetObj.options.yesValue).change();
+                    }
+                }else{
+                    // we are a yes, go to both, or no
+                    if(widgetObj.options.allowBoth){
+                        widgetObj.element.val(widgetObj.options.bothValue).change();
+                    }else{
+                        widgetObj.element.val(widgetObj.options.noValue).change();
+                    }
+                }
+            });
+            this.spanElement.append(this.noIconElement);
+            
+            // set the CSS properties commong to all three of the images
+            $('img', this.spanElement).css({
+                margin: '0px',
+                padding: '0px',
+                border: '0px solid black',
+                cursor: 'pointer'
+            });
+
+            // set the CSS properties of the input
+            if(this.element.is('input[type="text"]')){
+                this.element.css('display', 'none');
+            }
+
+            // attach needed event handlers
+            this._on({
+                change: function(){
+                    this.refresh();
+                }
+            });
+
+            // render the widget so it reflects the state of the checkbox/radio button
+            this.refresh();
+        },
+
+        // function to render the widget
+        refresh: function(){
+            // make sure the value is valid
+            this._coerceValue();
+            
+            // deal with the width and height of each image
+            var halfWidth = parseInt(this.options.iconWidthPx / 2);
+            this.mainIconElement.css({
+                width: this.options.iconWidthPx + 'px',
+                height: this.options.iconWidthPx + 'px'
+            });
+            this.yesIconElement.css({
+                width: halfWidth  + 'px',
+                height: halfWidth + 'px'
+            });
+            this.noIconElement.css({
+                width: halfWidth  + 'px',
+                height: halfWidth + 'px'
+            });
+            
+            // set the opacity of the yes and no images
+            if(this.options.allowNone && this.element.val() == this.options.noneValue){
+                this.yesIconElement.css('opacity', '0.25');
+                this.noIconElement.css('opacity', '0.25');
+            }else if(this.options.allowBoth && this.element.val() == this.options.bothValue){
+                this.yesIconElement.css('opacity', 1);
+                this.noIconElement.css('opacity', 1);
+            }else if(this.element.val() == this.options.yesValue){
+                this.yesIconElement.css('opacity', 1);
+                this.noIconElement.css('opacity', '0.25');
+            }else{
+                this.yesIconElement.css('opacity', '0.25');
+                this.noIconElement.css('opacity', 1);
+            }
+        },
+        
+        // a private helper function to coerce a value held in the input into the valid range
+        _coerceValue: function(){
+            // if the value equals any of the allowed values, just return
+            if(this.options.allowNone && this.element.val() == this.options.noneValue){
+                return;
+            }
+            if(this.element.val() == this.options.yesValue){
+                return;
+            }
+            if(this.element.val() == this.options.noValue){
+                return;
+            }
+            if(this.options.allowBoth && this.element.val() == this.options.bothValue){
+                return;
+            }
+            
+            // if we got here, default to none if allowed, or no if not
+            if(this.options.allowNone){
+                this.element.val(this.options.noneValue);
+            }else{
+                this.element.val(this.options.noValue);
+            }
+        }
+    });
+    
+    //
     // === Star Rating Widget ==================================================
     //
     $.widget("bartificer.starRating", {

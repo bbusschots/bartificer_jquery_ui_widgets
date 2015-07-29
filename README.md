@@ -36,6 +36,27 @@ Sample Code:
         uncheckedImg: 'no_icon.png'
     });
     
+### Yes/No Icon Toggle
+
+This widget turns an input of type `hidden` or `text` into a clickable icon with yes and no icons stacked next to it. Clicking on the main icon cycles through all permitted states, and clicking the yes or no icons sets those to on.
+
+The widget always allows `yes` and `no` to be selected, but it can also allow none and/or both to be selected.
+
+Sample Code:
+
+    <!-- The HTML for the yes/no icon toggle -->
+    <input type="hidden" value="yes" id="icontoggle" />
+    
+    // the JavaScript to configure the yes/no icon toggle
+    // (you would usually do this in JQuery's document ready event handler)
+    $('#icontoggle').checkboxIcon({
+        iconImg: 'main_icon.png',
+        yesImg: 'yes.png',
+        noImg: 'no.png',
+        allowNone: true,
+        allowBoth: true
+    });
+
 ### starRating
 
 This widget turns an input of type `hidden` or `text` into a series of n clickable stars, allowing users to select a value between 1 and the number of stars.
