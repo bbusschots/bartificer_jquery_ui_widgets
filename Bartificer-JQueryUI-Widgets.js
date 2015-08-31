@@ -159,7 +159,10 @@
             yesValue: 'yes',
             noValue: 'no',
             bothValue: 'both',
-            noneValue: ''
+            noneValue: '',
+            tooltip: '',
+            dimIconOnNone: false,
+            dimIconOnNo: false,
         },
         
         // option change handler
@@ -210,7 +213,7 @@
             
             // insert the main icon
             this.mainIconElement = $('<img />').addClass('bartificer-yes-no-icon-toggle-icon');
-            this.mainIconElement.attr('src', this.options.iconImg);
+            this.mainIconElement.attr('src', this.options.iconImg).attr('title', this.options.tooltip);
             this.mainIconElement.css({
                 position: 'absolute',
                 top: '0px',
@@ -239,12 +242,14 @@
                         widgetObj.element.val(widgetObj.options.noValue).change();
                     }
                 }
+                // pass the click on to the element
+                widgetObj.element.click();
             });
             this.spanElement.append(this.mainIconElement);
             
             // insert the yes icon
             this.yesIconElement = $('<img />').addClass('bartificer-yes-no-icon-toggle-yes');
-            this.yesIconElement.attr('src', this.options.yesImg);
+            this.yesIconElement.attr('src', this.options.yesImg).attr('title', this.options.yesValue);
             this.yesIconElement.css({
                 position: 'absolute',
                 top: '0px',
@@ -271,12 +276,14 @@
                         widgetObj.element.val(widgetObj.options.noValue).change();
                     }
                 }
+                // pass the click on to the element
+                widgetObj.element.click();
             });
             this.spanElement.append(this.yesIconElement);
             
             // insert the no icon
             this.noIconElement = $('<img />').addClass('bartificer-yes-no-icon-toggle-no');
-            this.noIconElement.attr('src', this.options.noImg);
+            this.noIconElement.attr('src', this.options.noImg).attr('title', this.options.noValue);
             this.noIconElement.css({
                 position: 'absolute',
                 bottom: '0px',
@@ -303,6 +310,8 @@
                         widgetObj.element.val(widgetObj.options.noValue).change();
                     }
                 }
+                // pass the click on to the element
+                widgetObj.element.click();
             });
             this.spanElement.append(this.noIconElement);
             
@@ -326,7 +335,7 @@
                 }
             });
 
-            // render the widget so it reflects the state of the checkbox/radio button
+            // render the widget so it reflects the state of the input
             this.refresh();
         },
 
@@ -349,6 +358,28 @@
                 width: halfWidth  + 'px',
                 height: halfWidth + 'px'
             });
+            
+            // update the main icon label as appropriate
+            if(this.options.tooltip){
+            	var tooltipText = this.options.tooltip;
+            	if(this.element.val() == this.options.bothValue){
+            		tooltipText += ': ' + this.options.yesValue + ' & ' + this.options.noValue;
+            	}else if(this.element.val() == this.options.yesValue){
+            		tooltipText += ': ' + this.options.yesValue;
+            	}else if(this.element.val() == this.options.noValue){
+            		tooltipText += ': ' + this.options.noValue;
+            	}
+            	this.mainIconElement.attr('title', tooltipText);
+            }else{
+            	this.mainIconElement.attr('title', '');
+            }
+            
+            // set the opacity of the main icon appropriately
+            if((this.options.dimIconOnNone && this.options.allowNone && this.element.val() == this.options.noneValue) || (this.options.dimIconOnNo && this.element.val() == this.options.noValue)){
+            	this.mainIconElement.css('opacity', '0.25');
+            }else{
+            	this.mainIconElement.css('opacity', 1);
+            }
             
             // set the opacity of the yes and no images
             if(this.options.allowNone && this.element.val() == this.options.noneValue){
