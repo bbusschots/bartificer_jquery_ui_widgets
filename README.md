@@ -75,12 +75,12 @@ Sample Code:
     
     // the JavaScript to configure the inputs
     // (you would usually do this in JQuery's document ready event handler)
-    $('#rating1').checkboxImage({
+    $('#rating1').starRating({
         mode: 'swap',
         starImg: 'star_icon.png',
         blankImg: 'dot_icon.png'
     });
-    $('#rating2').checkboxImage({
+    $('#rating2').starRating({
         mode: 'dim',
         starImg: 'star_icon.png'
     });

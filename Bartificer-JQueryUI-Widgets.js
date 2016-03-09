@@ -512,7 +512,11 @@
                 newStar.attr('title', starNum + ' star' + (starNum == 1 ? '' : 's'));
                 newStar.css('cursor', 'pointer');
                 newStar.click(function(){
+                	// update the stars
                     widgetObj.element.val($(this).data('star-num')).change();
+                    
+                    // pass the click on to the element
+                	widgetObj.element.click();
                 });
                 
                 // add it to the DOM
